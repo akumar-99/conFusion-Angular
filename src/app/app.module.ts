@@ -16,8 +16,9 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
-import {MatSliderModule} from '@angular/material/slider'
+import { MatSliderModule } from '@angular/material/slider'
 import { AppComponent } from './app.component';
+import { HttpClientModule } from '@angular/common/http';
 
 import 'hammerjs';
 import { MenuComponent } from './menu/menu.component';
@@ -32,6 +33,7 @@ import { DishService } from './services/dish.service';
 import { PromotionService } from './services/promotion.service';
 import { LeaderService } from './services/leader.service';
 
+import { baseURL } from './shared/baseurl';
 
 import { AppRoutingModule } from './app-routing/app-routing.module';
 import { LoginComponent } from './login/login.component';
@@ -62,17 +64,19 @@ import { LoginComponent } from './login/login.component';
     MatFormFieldModule,
     MatInputModule,
     MatCheckboxModule,
-    FormsModule, 
+    FormsModule,
     ReactiveFormsModule,
     MatSelectModule,
     MatSlideToggleModule,
     MatProgressSpinnerModule,
-    MatSliderModule
+    MatSliderModule,
+    HttpClientModule
   ],
   providers: [
     DishService,
     PromotionService,
-    LeaderService
+    LeaderService,
+    { provide: 'BaseURL', useValue: baseURL }
   ],
   entryComponents: [
     LoginComponent
