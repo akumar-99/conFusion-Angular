@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Feedback, ContactType } from '../shared/feedback';
 import { flyInOut } from '../animations/app.animation';
+import { FeedbackService } from '../services/feedback.service';
+import { visibility, expand, hide } from '../animations/app.animation';
 
 @Component({
   selector: 'app-contact',
@@ -12,7 +14,10 @@ import { flyInOut } from '../animations/app.animation';
     'style': 'display: block;'
   },
   animations: [
-    flyInOut()
+    flyInOut(),
+    visibility(),
+    expand(),
+    hide()
   ]
 })
 export class ContactComponent implements OnInit {
@@ -20,6 +25,10 @@ export class ContactComponent implements OnInit {
   feedbackForm: FormGroup;
   feedback: Feedback;
   contactType = ContactType;
+  errMess: string;
+
+  visibilitySpinner = 'hidden';
+  visibilityForm = 'shown';
   @ViewChild('fform') feedbackFormDirective;
 
   formErrors = {
@@ -50,7 +59,7 @@ export class ContactComponent implements OnInit {
     }
   }
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private feedbackService: FeedbackService) {
     this.createForm();
   }
 
@@ -83,7 +92,7 @@ export class ContactComponent implements OnInit {
         const control = form.get(field);
         if (control && control.dirty && !control.valid) {
           const messages = this.validationMessages[field];
-          for(const key in control.errors) {
+          for (const key in control.errors) {
             if (control.errors.hasOwnProperty(key)) {
               this.formErrors[field] += messages[key] + ' ';
             }
@@ -95,8 +104,23 @@ export class ContactComponent implements OnInit {
 
 
   onSubmit() {
-    this.feedback = this.feedbackForm.value;
-    console.log(this.feedback);
+    this.visibilityForm = 'hidden';
+    this.visibilitySpinner = 'shown';
+
+    console.log(this.feedbackForm.value);
+
+    this.feedbackService.submitFeedback(this.feedbackForm.value)
+      .subscribe(feedback => {
+        this.visibilitySpinner = 'hidden';
+        this.feedback = feedback;
+        setTimeout(func => {
+          this.feedback = null;
+          this.visibilityForm = 'shown';
+        }, 5000)
+      },
+        errmess => { this.feedback = null; this.errMess = <any>errmess });
+
+
     this.feedbackForm.reset({
       firstname: '',
       lastname: '',

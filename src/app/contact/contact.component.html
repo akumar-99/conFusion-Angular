@@ -37,7 +37,7 @@
     <div fxFlex fxFlexOffset="20px" class="form-size">
         <h3>Send us your Feedback</h3>
         <p>{{ feedbackForm.value | json }} {{ feedbackForm.status }}</p>
-        <form novalidate [formGroup]="feedbackForm" #fform="ngForm" (ngSubmit)="onSubmit()">
+        <form novalidate [formGroup]="feedbackForm" #fform="ngForm" (ngSubmit)="onSubmit()" [@hide]="visibilityForm">
             <p>
                 <mat-form-field class="half-width">
                     <input matInput formControlName="firstname" placeholder="First Name" type="text" required>
@@ -47,17 +47,18 @@
                     <input matInput formControlName="lastname" placeholder="Last Name" type="text" required>
                     <mat-error *ngIf="formErrors.lastname">{{ formErrors.lastname }}</mat-error>
                 </mat-form-field>
-               
+
             </p>
             <p>
                 <mat-form-field class="half-width">
-                    <input matInput formControlName="telnum" placeholder="Tel. Name" type="tel" pattern="[0-9]*" required>
+                    <input matInput formControlName="telnum" placeholder="Tel. Name" type="tel" pattern="[0-9]*"
+                        required>
                     <mat-error *ngIf="formErrors.telnum">{{ formErrors.telnum }}</mat-error>
                 </mat-form-field>
                 <mat-form-field class="half-width">
                     <input matInput formControlName="email" placeholder="Email" type="email" email required>
                     <mat-error *ngIf="formErrors.email">{{ formErrors.email }}</mat-error>
-            </mat-form-field>
+                </mat-form-field>
             </p>
             <table class="form-size">
                 <td>
@@ -79,5 +80,19 @@
             <button mat-button type="submit" class="background-primary text-floral-white"
                 [disabled]="feedbackForm.invalid">Submit</button>
         </form>
+    </div>
+    <div [@hide]="visibilitySpinner">
+        <h4>Submitting Form</h4>
+        <mat-spinner></mat-spinner>     
+    </div>
+    <div class="flex" *ngIf="feedback" [@expand]>
+        <h3>Your submission</h3>
+        <p>First Name: {{feedback.firstname}}</p>
+        <p>Last Name: {{feedback.lastname}}</p>
+        <p>Tel. number: {{feedback.telnum}}</p>
+        <p>Email: {{feedback.email}}</p>
+        <p>Contact You?: {{feedback.agree}}</p>
+        <p>How?: {{feedback.contacttype}}</p>
+        <p>Feedback: {{feedback.message}}</p>
     </div>
 </div>

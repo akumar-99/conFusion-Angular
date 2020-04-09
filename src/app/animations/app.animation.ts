@@ -21,19 +21,19 @@ export function flyInOut() {
             transform: 'translateX(0)'
         })),
         transition(':enter', [
-            style({ 
+            style({
                 transform: 'translateX(100%)',
                 opacity: 0
             }),
             animate('500ms ease-in')
         ]),
         transition(':leave', [
-            animate('500ms ease-out', style({ 
-                transform: 'translateX(-100%)', 
+            animate('500ms ease-out', style({
+                transform: 'translateX(-100%)',
                 opacity: 0
             })),
         ]),
-        
+
     ]);
 }
 
@@ -44,7 +44,7 @@ export function expand() {
             transform: 'translateX(0%)'
         })),
         transition(':enter', [
-            style({ 
+            style({
                 transform: 'translateY(-50%)',
                 opacity: 0
             }),
@@ -53,5 +53,17 @@ export function expand() {
                 transform: 'translateX(0%)'
             }))
         ])
+    ]);
+}
+
+export function hide() {
+    return trigger('hide', [
+        state('shown', style({
+            visibility: 'visible'
+        })),
+        state('hidden', style({
+            display: 'none'
+        })),
+        transition('* => *', animate('0.1s ease-in-out'))
     ]);
 }
