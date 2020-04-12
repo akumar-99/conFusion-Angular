@@ -1,6 +1,10 @@
 # ConFusion
 
+NOTE : The databse is hosted at https://github.com/akumar-99/conFusion-angular-json which si not persistent for any push PUSH an PUT operations. It is just a mock server for testing.
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.0.
+
+Install @angular-devkit/build-angular using npm install --save-dev @angular-devkit/build-angular.
 
 ## Development server
 
